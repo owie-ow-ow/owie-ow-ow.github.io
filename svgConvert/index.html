@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG to PNG</title>
+    <style>
+        p {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Upload any SVG and get a PNG :)</p>
+    <input id="svg-input" type="file" />
+    <p>There isn't any styling yet, but it works!</p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/save-svg-as-png/1.4.17/saveSvgAsPng.js"></script>
+
+    <script>
+        const input = document.getElementById("svg-input");
+
+        input.addEventListener("change", processSvg);
+
+        function processSvg(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = () => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(reader.result, "image/svg+xml");
+                const svg = doc.querySelector("svg");
+
+                saveSvgAsPng(svg, "img.png");
+            };
+
+            reader.readAsText(file);
+        }
+    </script>
+
+</body>
+</html>
